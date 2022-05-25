@@ -24,7 +24,7 @@ const InstructorPage = () => {
         setStats(statsRes);
       })();
     }
-  });
+  }, [router.query]);
 
   return (
     instructor && (

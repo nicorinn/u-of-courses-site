@@ -31,7 +31,7 @@ const CoursePage = () => {
         setStats(statsRes);
       })();
     }
-  });
+  }, [router.query]);
 
   return (
     course && (

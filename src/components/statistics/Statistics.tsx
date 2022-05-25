@@ -26,7 +26,8 @@ const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
         </Heading>
         {stats.hoursWorked && (
           <Text>
-            workload: <Text as="strong">{stats.hoursWorked}</Text> hours
+            workload: <Text as="strong">{stats.hoursWorked.toFixed(0)}</Text>{' '}
+            hours
           </Text>
         )}
         {type === 'course' && (

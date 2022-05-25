@@ -7,12 +7,14 @@ import {
   Link,
   Text,
   HStack,
+  Center,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getCourse, getCourseStats, getSection } from '../../api/evalsApi';
-import { Course, Section, Stats } from '../../types';
+import { Keywords } from '../../components/keywords';
+import { Course, Keyword, Section, Stats } from '../../types';
 import { isString } from '../../utils';
 
 const SectionPage = () => {
@@ -37,33 +39,37 @@ const SectionPage = () => {
         setSection(sectionRes);
       })();
     }
-  });
+  }, [router.query]);
 
   return (
     section &&
     course && (
-      <Container>
-        <VStack mb={4}>
-          <Heading size="md" textAlign="center">
-            {`${section.quarter} ${section.year} - Section ${section.number}`}
-          </Heading>
-          <NextLink href={`/course/${course.id}`}>
-            <Link color="maroon">{`${course.courseNumbers.join(', ')} - ${
-              course.title
-            }`}</Link>
-          </NextLink>
-          <HStack>
-            {section.instructors.map((i) => (
-              <NextLink key={i.id} href={`/instructor/${i.id}`}>
-                <Link color="maroon">{i.name}</Link>
-              </NextLink>
-            ))}
-          </HStack>
-          <Divider />
-        </VStack>
-        <Box mt={5} mb={5}></Box>
+      <Box>
+        <Container>
+          <VStack mb={4}>
+            <Heading size="md" textAlign="center">
+              {`${section.quarter} ${section.year} - Section ${section.number}`}
+            </Heading>
+            <NextLink href={`/course/${course.id}`}>
+              <Link color="maroon">{`${course.courseNumbers.join(', ')} - ${
+                course.title
+              }`}</Link>
+            </NextLink>
+            <HStack>
+              {section.instructors.map((i) => (
+                <NextLink key={i.id} href={`/instructor/${i.id}`}>
+                  <Link color="maroon">{i.name}</Link>
+                </NextLink>
+              ))}
+            </HStack>
+            <Divider />
+          </VStack>
+        </Container>
+        <Center mt={5} mb={5} justifyContent="center">
+          <Keywords keywords={section.keywords} height={200} width={300} />
+        </Center>
         <Divider />
-      </Container>
+      </Box>
     )
   );
 };
