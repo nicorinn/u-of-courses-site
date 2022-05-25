@@ -3,22 +3,19 @@ import { Bar } from '@visx/shape';
 import { Group } from '@visx/group';
 import { AxisBottom } from '@visx/axis';
 import { scaleLinear } from '@visx/scale';
-import { Box, Flex, HStack, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { getBarX } from '../../utils';
 
 export type BarsProps = {
-  sectionVal: number;
-  totalVal: number;
+  value: number;
   isSentiment?: boolean;
   isHours?: boolean;
   label: string;
 };
 
-const ComparisonChart: React.FC<BarsProps> = ({
-  sectionVal,
-  totalVal,
+const SingleBarChart: React.FC<BarsProps> = ({
+  value,
   isSentiment = false,
-  isHours = false,
   label,
 }: BarsProps) => {
   const width = 400;
@@ -27,15 +24,8 @@ const ComparisonChart: React.FC<BarsProps> = ({
   const boxWidth = width + 20;
 
   const sectionColor = '#b56576';
-  const totalColor = '#6d597a';
 
-  const sectionWidth = isSentiment
-    ? (sectionVal / 2) * width
-    : (sectionVal / 5) * width;
-
-  const totalWidth = isSentiment
-    ? (totalVal / 2) * width
-    : (totalVal / 5) * width;
+  const sectionWidth = isSentiment ? (value / 2) * width : (value / 5) * width;
 
   const scale = scaleLinear<number>({
     domain: isSentiment ? [-1, 1] : [0, 10],
@@ -47,34 +37,17 @@ const ComparisonChart: React.FC<BarsProps> = ({
     <Box>
       <Flex justifyContent="space-between">
         <Text fontWeight={700}>{label}</Text>
-        <HStack>
-          <Text fontWeight={700} color={sectionColor}>
-            current
-          </Text>
-          <Text fontWeight={700} color={totalColor}>
-            average
-          </Text>
-        </HStack>
       </Flex>
       <svg width={boxWidth} height={height}>
         <rect width={boxWidth} height={height} fill="url(#teal)" rx={14} />
         <Group>
           <Bar
             key={0}
-            x={getBarX(sectionVal, width, isSentiment) + x}
+            x={getBarX(value, width, isSentiment) + x}
             y={0}
             width={sectionWidth}
             height={20}
             fill={sectionColor}
-            rx={4}
-          />
-          <Bar
-            key={1}
-            x={getBarX(totalVal, width, isSentiment) + x}
-            y={10}
-            width={totalWidth}
-            height={20}
-            fill={totalColor}
             rx={4}
           />
           <AxisBottom
@@ -94,4 +67,4 @@ const ComparisonChart: React.FC<BarsProps> = ({
   );
 };
 
-export default ComparisonChart;
+export default SingleBarChart;

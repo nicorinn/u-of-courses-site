@@ -1,5 +1,6 @@
 import { Box, Heading, VStack, Text } from '@chakra-ui/react';
 import { Stats } from '../../types';
+import { SingleBarChart } from '../singleBarChart';
 
 interface StatisticsProps {
   stats: Stats;
@@ -24,6 +25,11 @@ const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
         <Heading size="md" color="gray">
           stats:
         </Heading>
+        <SingleBarChart
+          isSentiment
+          value={stats.sentiment}
+          label="sentiment score"
+        />
         {stats.hoursWorked && (
           <Text>
             workload: <Text as="strong">{stats.hoursWorked.toFixed(0)}</Text>{' '}
