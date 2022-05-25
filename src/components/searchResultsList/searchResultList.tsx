@@ -20,12 +20,7 @@ interface SearchResultsListProps {
 
 function renderCourseResults(courses: Course[]) {
   return (
-    <VStack
-      className="courseResults"
-      spacing={5}
-      maxHeight="50vh"
-      overflowY="auto"
-    >
+    <VStack className="courseResults" spacing={5}>
       {courses.map((course) => (
         <CourseResult key={course.id} course={course} />
       ))}
@@ -35,12 +30,7 @@ function renderCourseResults(courses: Course[]) {
 
 function renderInstructorResults(instructors: Instructor[]) {
   return (
-    <VStack
-      className="instructorResults"
-      spacing={5}
-      maxHeight="50vh"
-      overflowY="auto"
-    >
+    <VStack className="instructorResults" spacing={5}>
       {instructors.map((instructor) => (
         <InstructorResult key={instructor.id} instructor={instructor} />
       ))}

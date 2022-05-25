@@ -45,7 +45,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="search">
-        <Container>
+        <Container minH="80vh">
           <Heading textAlign="center" mb={5}>
             <Text as="span">Welcome to</Text>{' '}
             <Text as="span" color="maroon">

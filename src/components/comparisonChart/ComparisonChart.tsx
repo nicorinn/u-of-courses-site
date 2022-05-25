@@ -9,6 +9,7 @@ export type BarsProps = {
   sectionVal: number;
   totalVal: number;
   isSentiment?: boolean;
+  isHours?: boolean;
   label: string;
 };
 
@@ -16,6 +17,7 @@ const ComparisonChart: React.FC<BarsProps> = ({
   sectionVal,
   totalVal,
   isSentiment = false,
+  isHours = false,
   label,
 }: BarsProps) => {
   const width = 400;
