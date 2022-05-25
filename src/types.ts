@@ -27,6 +27,7 @@ export interface Section {
   helpfulOutsideOfClass: number | null;
   keywords: Keyword[];
   instructors: Instructor[];
+  courseTitle?: string;
 }
 
 export interface Instructor {

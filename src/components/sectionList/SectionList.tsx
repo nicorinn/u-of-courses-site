@@ -6,7 +6,10 @@ function getInstructorNames(instructors: Instructor[]) {
   return instructors.map((i) => i.name).join(', ');
 }
 
-const SectionList: React.FC<{ sections: Section[] }> = ({ sections }) => {
+const SectionList: React.FC<{
+  sections: Section[];
+  hasCourseTitles: boolean;
+}> = ({ sections, hasCourseTitles }) => {
   return (
     <Box className="sectionList">
       <VStack spacing={5}>
@@ -16,10 +19,18 @@ const SectionList: React.FC<{ sections: Section[] }> = ({ sections }) => {
           </Heading>
         </Box>
         {sections.map((section) => (
-          <Box key={section.id} width="100%">
+          <Box
+            key={section.courseTitle ? section.courseTitle : section.id}
+            width="100%"
+          >
             <NextLink href={`/section/${section.id}`}>
               <Button variant="ghost" width="100%">
                 <Box textAlign="left" width="100%">
+                  {hasCourseTitles && (
+                    <Text noOfLines={0} fontWeight={400}>
+                      {section.courseTitle}
+                    </Text>
+                  )}
                   <Text noOfLines={0} fontWeight={400}>
                     {`#${section.number} - ${section.quarter} ${section.year}`}
                   </Text>
