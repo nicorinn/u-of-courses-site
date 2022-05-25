@@ -1,20 +1,23 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Container, Heading, Input, Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { searchEvals } from '../api/evalsApi';
 import { SearchResultsList } from '../components/searchResultsList';
 import { Course, Instructor } from '../types';
+import { debounce } from 'lodash';
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState('');
   const [courseResults, setCourseResults] = useState<Course[]>([]);
   const [instructorResults, setInstructorResults] = useState<Instructor[]>([]);
 
-  useEffect(() => {
-    if (query) {
+  const debouncedSearch = useMemo(() => debounce(performSearch, 300), []);
+
+  async function performSearch(text: string) {
+    if (text) {
       (async () => {
-        const results = await searchEvals(query);
+        const results = await searchEvals(text);
         if (results.courses) {
           setCourseResults(results.courses);
         }
@@ -26,11 +29,12 @@ const Home: NextPage = () => {
       setCourseResults([]);
       setInstructorResults([]);
     }
-  }, [query]);
+  }
 
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     setQuery(e.target.value);
+    debouncedSearch(e.target.value);
   }
 
   return (
