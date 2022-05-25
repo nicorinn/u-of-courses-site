@@ -10,7 +10,7 @@ function returnDoubleValueIfNotNull(description: string, value: number | null) {
   return (
     value && (
       <Text>
-        {description}: <Text as="strong">{value * 2}</Text>
+        {description}: <Text as="strong">{(value * 2).toFixed(1)}</Text>
         /10
       </Text>
     )
@@ -35,7 +35,6 @@ const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
             <Text>{`total enrolled: ${stats.enrolledCount}`}</Text>
           </>
         )}
-        <Text>{`total respondents: ${stats.respondentCount}`}</Text>
         {type === 'instructor' && (
           <>
             {returnDoubleValueIfNotNull(
@@ -53,6 +52,7 @@ const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
             )}
           </>
         )}
+        <Text>{`total respondents: ${stats.respondentCount}`}</Text>
       </VStack>
     </Box>
   );

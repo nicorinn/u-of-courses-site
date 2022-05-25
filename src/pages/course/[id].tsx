@@ -12,10 +12,7 @@ import { getCourse, getCourseStats } from '../../api/evalsApi';
 import { SectionList } from '../../components/sectionList';
 import { Statistics } from '../../components/statistics';
 import { Course, Stats } from '../../types';
-
-function isString(data: string | string[]): data is string {
-  return typeof data === 'string';
-}
+import { isString } from '../../utils';
 
 const CoursePage = () => {
   const router = useRouter();
