@@ -39,7 +39,7 @@ const CoursePage = () => {
         <VStack mb={4}>
           <Heading textAlign="center">{course.title}</Heading>
           <Box>
-            <Text fontSize={22}>{course.courseNumbers.join(' - ')}</Text>
+            <Text fontSize={22}>{course.courseNumbers.join(', ')}</Text>
           </Box>
           <Divider />
         </VStack>

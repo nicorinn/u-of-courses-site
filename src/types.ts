@@ -12,6 +12,7 @@ export interface Keyword {
 
 export interface Section {
   id: number;
+  courseId: number;
   number: number;
   year: number;
   quarter: string;
