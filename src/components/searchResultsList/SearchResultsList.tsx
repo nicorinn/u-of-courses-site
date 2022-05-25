@@ -9,8 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Course, Instructor } from '../../types';
-import CourseResults from './CourseResultsList';
-import InstructorResult from './InstructorResultsList';
+import CourseResults from './CourseResults';
+import InstructorResult from './InstructorResults';
 
 interface SearchResultsListProps {
   courses: Course[];
