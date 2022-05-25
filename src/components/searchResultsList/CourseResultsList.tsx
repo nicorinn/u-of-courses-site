@@ -2,7 +2,7 @@ import { Box, Button, Text } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { Course } from '../../types';
 
-const CourseResult: React.FC<{ course: Course }> = ({ course }) => {
+const CourseResults: React.FC<{ course: Course }> = ({ course }) => {
   return (
     <Box width="100%">
       <NextLink href={`/course/${course.id}`}>
@@ -18,4 +18,4 @@ const CourseResult: React.FC<{ course: Course }> = ({ course }) => {
   );
 };
 
-export default CourseResult;
+export default CourseResults;

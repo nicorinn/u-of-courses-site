@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Course, Instructor } from '../../types';
-import CourseResult from './CourseResult';
+import CourseResults from './CourseResultsList';
 import InstructorResult from './InstructorResultsList';
 
 interface SearchResultsListProps {
@@ -22,7 +22,7 @@ function renderCourseResults(courses: Course[]) {
   return (
     <VStack className="courseResults" spacing={5}>
       {courses.map((course) => (
-        <CourseResult key={course.id} course={course} />
+        <CourseResults key={course.id} course={course} />
       ))}
     </VStack>
   );
