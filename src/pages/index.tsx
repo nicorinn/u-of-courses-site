@@ -47,7 +47,11 @@ const Home: NextPage = () => {
       <main className="search">
         <Container>
           <Heading textAlign="center" mb={5}>
-            Welcome to u of courses!
+            <Text as="span">Welcome to</Text>{' '}
+            <Text as="span" color="maroon">
+              u of c
+            </Text>
+            <Text as="span">ourses!</Text>
           </Heading>
           <Text textAlign="center" mb={5}>
             Search for course name, number, or instructor

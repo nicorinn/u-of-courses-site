@@ -7,6 +7,7 @@ import {
   Tabs,
   VStack,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { Course, Instructor } from '../../types';
 import CourseResult from './courseResult';
 import InstructorResult from './instructorResultsList';
@@ -19,7 +20,12 @@ interface SearchResultsListProps {
 
 function renderCourseResults(courses: Course[]) {
   return (
-    <VStack spacing={5}>
+    <VStack
+      className="courseResults"
+      spacing={5}
+      maxHeight="50vh"
+      overflowY="auto"
+    >
       {courses.map((course) => (
         <CourseResult key={course.id} course={course} />
       ))}
@@ -29,7 +35,12 @@ function renderCourseResults(courses: Course[]) {
 
 function renderInstructorResults(instructors: Instructor[]) {
   return (
-    <VStack spacing={5}>
+    <VStack
+      className="instructorResults"
+      spacing={5}
+      maxHeight="50vh"
+      overflowY="auto"
+    >
       {instructors.map((instructor) => (
         <InstructorResult key={instructor.id} instructor={instructor} />
       ))}
@@ -42,11 +53,29 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({
   instructors,
   queryString,
 }) => {
+  const [tabIndex, setTabIndex] = useState(0);
+
+  useEffect(() => {
+    if (!courses.length && instructors.length) {
+      setTabIndex(1);
+    } else if (!instructors.length && courses.length) {
+      setTabIndex(0);
+    }
+  }, [courses.length, instructors.length]);
+
+  const handleTabsChange = (index: number) => {
+    setTabIndex(index);
+  };
+
   return (
-    <Tabs isFitted isLazy defaultIndex={0}>
+    <Tabs isFitted isLazy index={tabIndex} onChange={handleTabsChange}>
       <TabList>
-        <Tab>{`📚 Courses (${courses.length})`}</Tab>
-        <Tab>{`🧑‍🏫 Instructors (${instructors.length})`}</Tab>
+        <Tab
+          isDisabled={!courses.length}
+        >{`📚 Courses (${courses.length})`}</Tab>
+        <Tab
+          isDisabled={!instructors.length}
+        >{`🧑‍🏫 Instructors (${instructors.length})`}</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>{renderCourseResults(courses)}</TabPanel>

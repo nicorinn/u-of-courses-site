@@ -14,6 +14,9 @@ const theme: ThemeConfig = extendTheme({
     body: 'Epilogue, sans-serif',
     heading: 'Epilogue, sans-serif',
   },
+  colors: {
+    maroon: '#800000',
+  },
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
