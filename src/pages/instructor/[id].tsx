@@ -2,7 +2,6 @@ import { Container, VStack, Heading, Box, Divider } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getInstructor, getInstructorStats } from '../../api/evalsApi';
-import { ComparisonChart } from '../../components/comparisonChart';
 import { SectionList } from '../../components/sectionList';
 import { Statistics } from '../../components/statistics';
 import { Instructor, Stats } from '../../types';

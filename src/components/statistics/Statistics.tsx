@@ -1,5 +1,7 @@
-import { Box, Heading, VStack, Text } from '@chakra-ui/react';
+import { Box, Heading, VStack, Text, useDimensions } from '@chakra-ui/react';
+import React, { useRef } from 'react';
 import { Stats } from '../../types';
+import { getChartHeight, getChartWidth } from '../../utils';
 import { SingleBarChart } from '../singleBarChart';
 
 interface StatisticsProps {
@@ -19,8 +21,12 @@ function returnDoubleValueIfNotNull(description: string, value: number | null) {
 }
 
 const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
+  const elementRef = useRef<HTMLElement>(null);
+  const dimensions = useDimensions(elementRef);
+
   return (
-    <Box className="stats">
+    // @ts-ignore
+    <Box ref={elementRef} className="stats">
       <VStack spacing={5} alignItems="start">
         <Heading size="md" color="gray">
           stats:
@@ -29,6 +35,8 @@ const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
           isSentiment
           value={stats.sentiment}
           label="sentiment score"
+          width={getChartWidth(dimensions)}
+          height={getChartHeight(dimensions, 3)}
         />
         {stats.hoursWorked && (
           <Text>

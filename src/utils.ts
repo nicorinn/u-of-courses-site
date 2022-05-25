@@ -13,3 +13,11 @@ export function getBarX(value: number, width: number, isSentiment = false) {
     return midpoint;
   }
 }
+
+export function getChartWidth(dimensions: any) {
+  return dimensions ? dimensions.borderBox.width * 0.95 : 0;
+}
+
+export function getChartHeight(dimensions: any, divisor: number) {
+  return dimensions ? dimensions.borderBox.width / divisor : 0;
+}
