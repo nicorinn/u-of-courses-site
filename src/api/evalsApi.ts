@@ -27,7 +27,7 @@ export async function getCourse(courseId: number) {
     return res.data as Course;
   } else {
     console.error(`Error: status code ${res.status}`);
-    return {};
+    return null;
   }
 }
 
@@ -37,7 +37,7 @@ export async function getInstructor(instructorId: number) {
     return res.data as Instructor;
   } else {
     console.error(`Error: status code ${res.status}`);
-    return {};
+    return null;
   }
 }
 
@@ -47,7 +47,7 @@ export async function getSection(sectionId: number) {
     return res.data as Section;
   } else {
     console.error(`Error: status code ${res.status}`);
-    return {};
+    return null;
   }
 }
 
@@ -57,7 +57,7 @@ export async function getCourseStats(courseId: number) {
     return res.data as Stats;
   } else {
     console.error(`Error: status code ${res.status}`);
-    return {};
+    return null;
   }
 }
 
@@ -67,6 +67,6 @@ export async function getInstructorStats(instructorId: number) {
     return res.data as Stats;
   } else {
     console.error(`Error: status code ${res.status}`);
-    return {};
+    return null;
   }
 }
