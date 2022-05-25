@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getCourse, getCourseStats } from '../../api/evalsApi';
 import { SectionList } from '../../components/sectionList';
+import { Statistics } from '../../components/statistics';
 import { Course, Stats } from '../../types';
 
 function isString(data: string | string[]): data is string {
@@ -39,13 +40,17 @@ const CoursePage = () => {
     course && (
       <Container>
         <VStack mb={4}>
-          <Heading>{course.title}</Heading>
+          <Heading textAlign="center">{course.title}</Heading>
           <Box>
             <Text fontSize={22}>{course.courseNumbers.join(' - ')}</Text>
           </Box>
           <Divider />
         </VStack>
-        <SectionList sections={course.sections} />
+        <Box mt={5} mb={5}>
+          <SectionList sections={course.sections} />
+        </Box>
+        <Divider />
+        <Box mt={5}>{stats && <Statistics stats={stats} type="course" />}</Box>
       </Container>
     )
   );

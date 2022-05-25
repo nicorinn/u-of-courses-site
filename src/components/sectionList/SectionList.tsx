@@ -1,4 +1,4 @@
-import { Box, VStack, Text, Button } from '@chakra-ui/react';
+import { Box, VStack, Text, Button, Heading } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { Instructor, Section } from '../../types';
 
@@ -9,7 +9,12 @@ function getInstructorNames(instructors: Instructor[]) {
 const SectionList: React.FC<{ sections: Section[] }> = ({ sections }) => {
   return (
     <Box className="sectionList">
-      <VStack spacing={5} textAlign="left">
+      <VStack spacing={5}>
+        <Box width="100%" textAlign="left">
+          <Heading size="md" color="gray">
+            sections:
+          </Heading>
+        </Box>
         {sections.map((section) => (
           <Box key={section.id} width="100%">
             <NextLink href={`/section/${section.id}`}>
