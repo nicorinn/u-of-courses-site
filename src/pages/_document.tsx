@@ -1,20 +1,24 @@
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
-import { ChakraProvider, extendTheme, ThemeConfig } from '@chakra-ui/react';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-const theme: ThemeConfig = extendTheme({
-  fonts: {
-    body: 'IBM Plex Sans, sans-serif',
-    heading: 'IBM Plex Sans, sans-serif',
-  },
-});
-
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
-  );
+class MyDocument extends Document {
+  render() {
+    return (
+      <Html>
+        <Head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;700&display=swap"
+            rel="stylesheet"
+          />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
 }
 
-export default MyApp;
+export default MyDocument;
