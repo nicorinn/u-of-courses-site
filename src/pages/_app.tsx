@@ -1,6 +1,13 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { ChakraProvider, extendTheme, ThemeConfig } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  ChakraProvider,
+  extendTheme,
+  ThemeConfig,
+} from '@chakra-ui/react';
+import { Header } from '../components/header';
 
 const theme: ThemeConfig = extendTheme({
   fonts: {
@@ -12,7 +19,13 @@ const theme: ThemeConfig = extendTheme({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <Header />
+      <Box mt={10}>
+        <Component {...pageProps} />
+      </Box>
+      <Box position="fixed" margin="auto" bottom={0} p={5} width="100%">
+        <Center>&copy; u of courses 2022</Center>
+      </Box>
     </ChakraProvider>
   );
 }

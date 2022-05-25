@@ -1,14 +1,16 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { Heading, Input, Text } from '@chakra-ui/react';
+import { Container, Heading, Input, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { searchEvals } from '../api/evalsApi';
+import { SearchResultsList } from '../components/searchResultsList';
+import { Course, Instructor } from '../types';
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState('');
-  const [courseResults, setCourseResults] = useState([]);
-  const [instructorResults, setInstructorResults] = useState([]);
+  const [courseResults, setCourseResults] = useState<Course[]>([]);
+  const [instructorResults, setInstructorResults] = useState<Instructor[]>([]);
 
   useEffect(() => {
     if (query) {
@@ -32,7 +34,7 @@ const Home: NextPage = () => {
   return (
     <div className="searchPage">
       <Head>
-        <title>u-of-courses</title>
+        <title>u of courses</title>
         <meta
           name="description"
           content="The best uchicago course evaluations site"
@@ -41,28 +43,27 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="search">
-        <Heading>Welcome to u-of-courses</Heading>
-        <Text>Search for course name, number, or instructor</Text>
-        <Input
-          variant="filled"
-          size="lg"
-          value={query}
-          onChange={handleSearchChange}
-        />
+        <Container>
+          <Heading textAlign="center" mb={5}>
+            Welcome to u of courses
+          </Heading>
+          <Text textAlign="center" mb={5}>
+            Search for course name, number, or instructor
+          </Text>
+          <Input
+            variant="filled"
+            size="lg"
+            placeholder="..."
+            value={query}
+            onChange={handleSearchChange}
+          />
+          <SearchResultsList
+            courses={courseResults}
+            instructors={instructorResults}
+            queryString={query}
+          />
+        </Container>
       </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 };
