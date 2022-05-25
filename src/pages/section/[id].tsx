@@ -5,17 +5,33 @@ import {
   Box,
   Divider,
   Link,
-  Text,
   HStack,
-  Center,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getCourse, getCourseStats, getSection } from '../../api/evalsApi';
+import { ComparisonChart } from '../../components/comparisonChart';
 import { Keywords } from '../../components/keywords';
-import { Course, Keyword, Section, Stats } from '../../types';
+import { Course, Section, Stats } from '../../types';
 import { isString } from '../../utils';
+
+function getChartIfNotNull(
+  sectionVal: number | null,
+  averageVal: number | null,
+  description: string
+) {
+  return (
+    sectionVal &&
+    averageVal && (
+      <ComparisonChart
+        sectionVal={sectionVal}
+        totalVal={averageVal}
+        label={description}
+      />
+    )
+  );
+}
 
 const SectionPage = () => {
   const router = useRouter();
@@ -65,10 +81,44 @@ const SectionPage = () => {
             <Divider />
           </VStack>
         </Container>
-        <Center mt={5} mb={5} justifyContent="center">
+        <VStack mt={10} mb={5} spacing={10} justifyContent="center">
+          {stats && stats.sectionCount > 1 && (
+            <>
+              <ComparisonChart
+                sectionVal={section.sentiment}
+                totalVal={stats.sentiment}
+                isSentiment
+                label="sentiment score"
+              />
+              {getChartIfNotNull(
+                section.hoursWorked,
+                stats.hoursWorked,
+                'hours worked'
+              )}
+              {getChartIfNotNull(
+                section.evaluatedFairly,
+                stats.evaluatedFairly,
+                'graded fairly'
+              )}
+              {getChartIfNotNull(
+                section.usefulFeedback,
+                stats.usefulFeedback,
+                'provided useful feedback'
+              )}
+              {getChartIfNotNull(
+                section.standardsForSuccess,
+                stats.standardsForSuccess,
+                'understandable standards'
+              )}
+              {getChartIfNotNull(
+                section.helpfulOutsideOfClass,
+                stats.helpfulOutsideOfClass,
+                'helpful outside of class'
+              )}
+            </>
+          )}
           <Keywords keywords={section.keywords} height={200} width={300} />
-        </Center>
-        <Divider />
+        </VStack>
       </Box>
     )
   );

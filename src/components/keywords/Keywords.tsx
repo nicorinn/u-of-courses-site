@@ -42,7 +42,7 @@ const Keywords: React.FC<KeywordsProps> = ({ width, height, keywords }) => {
         width={width}
         height={height}
         fontSize={fontSizeSetter}
-        font={'Impact'}
+        font={'Epilogue'}
         padding={2}
         spiral="archimedean"
         rotate={0}
@@ -57,6 +57,7 @@ const Keywords: React.FC<KeywordsProps> = ({ width, height, keywords }) => {
               transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
               fontSize={w.size}
               fontFamily={w.font}
+              fontWeight={700}
             >
               {w.text}
             </Text>
