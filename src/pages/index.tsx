@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import { Container, Heading, Input, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { searchEvals } from '../api/evalsApi';
@@ -23,6 +22,9 @@ const Home: NextPage = () => {
           setInstructorResults(results.instructors);
         }
       })();
+    } else {
+      setCourseResults([]);
+      setInstructorResults([]);
     }
   }, [query]);
 
@@ -45,7 +47,7 @@ const Home: NextPage = () => {
       <main className="search">
         <Container>
           <Heading textAlign="center" mb={5}>
-            Welcome to u of courses
+            Welcome to u of courses!
           </Heading>
           <Text textAlign="center" mb={5}>
             Search for course name, number, or instructor
@@ -57,11 +59,13 @@ const Home: NextPage = () => {
             value={query}
             onChange={handleSearchChange}
           />
-          <SearchResultsList
-            courses={courseResults}
-            instructors={instructorResults}
-            queryString={query}
-          />
+          {query && (
+            <SearchResultsList
+              courses={courseResults}
+              instructors={instructorResults}
+              queryString={query}
+            />
+          )}
         </Container>
       </main>
     </div>

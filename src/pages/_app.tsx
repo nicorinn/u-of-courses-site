@@ -23,7 +23,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Box mt={10}>
         <Component {...pageProps} />
       </Box>
-      <Box position="fixed" margin="auto" bottom={0} p={5} width="100%">
+      <Box
+        position="fixed"
+        margin="auto"
+        bottom={0}
+        p={5}
+        width="100%"
+        bg="#fff"
+      >
         <Center>&copy; u of courses 2022</Center>
       </Box>
     </ChakraProvider>
