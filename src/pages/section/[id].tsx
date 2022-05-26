@@ -86,7 +86,10 @@ const SectionPage = () => {
                   {`${section.quarter} ${section.year} - Section ${section.number}`}
                 </Heading>
                 <NextLink href={`/course/${course.id}`}>
-                  <Link color="maroon">{`${course.courseNumbers.join(', ')} - ${
+                  <Link
+                    textAlign="center"
+                    color="maroon"
+                  >{`${course.courseNumbers.join(', ')} - ${
                     course.title
                   }`}</Link>
                 </NextLink>
