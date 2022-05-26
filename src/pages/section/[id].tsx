@@ -46,17 +46,19 @@ const SectionPage = () => {
   function getChartIfNotNull(
     sectionVal: number | null,
     averageVal: number | null,
-    description: string
+    description: string,
+    isHours = false
   ) {
     return (
       sectionVal &&
       averageVal && (
         <ComparisonChart
-          sectionVal={sectionVal}
-          totalVal={averageVal}
+          currentVal={sectionVal}
+          averageVal={averageVal}
           label={description}
           width={getChartWidth(dimensions)}
           height={getChartHeight(dimensions, 3)}
+          isHours={isHours}
         />
       )
     );
@@ -91,8 +93,8 @@ const SectionPage = () => {
               {stats && stats.sectionCount > 1 && (
                 <>
                   <ComparisonChart
-                    sectionVal={section.sentiment}
-                    totalVal={stats.sentiment}
+                    currentVal={section.sentiment}
+                    averageVal={stats.sentiment}
                     isSentiment
                     label="sentiment score"
                     width={getChartWidth(dimensions)}
@@ -101,7 +103,8 @@ const SectionPage = () => {
                   {getChartIfNotNull(
                     section.hoursWorked,
                     stats.hoursWorked,
-                    'hours worked'
+                    'hours worked',
+                    true
                   )}
                   {getChartIfNotNull(
                     section.evaluatedFairly,

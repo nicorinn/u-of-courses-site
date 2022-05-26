@@ -7,8 +7,8 @@ import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 import { getBarX } from '../../utils';
 
 export type BarsProps = {
-  sectionVal: number;
-  totalVal: number;
+  currentVal: number;
+  averageVal: number;
   isSentiment?: boolean;
   isHours?: boolean;
   label: string;
@@ -17,8 +17,8 @@ export type BarsProps = {
 };
 
 const ComparisonChart: React.FC<BarsProps> = ({
-  sectionVal,
-  totalVal,
+  currentVal,
+  averageVal,
   isSentiment = false,
   isHours = false,
   label,
@@ -31,16 +31,26 @@ const ComparisonChart: React.FC<BarsProps> = ({
   const sectionColor = '#b56576';
   const totalColor = '#6d597a';
 
-  const sectionWidth = isSentiment
-    ? (sectionVal / 2) * width
-    : (sectionVal / 5) * width;
+  const currentWidth = (() => {
+    if (isSentiment) return (currentVal / 2) * width;
+    if (isHours) return (currentVal / 33) * width;
+    return (currentVal / 5) * width;
+  })();
 
-  const totalWidth = isSentiment
-    ? (totalVal / 2) * width
-    : (totalVal / 5) * width;
+  const averageWidth = (() => {
+    if (isSentiment) return (averageVal / 2) * width;
+    if (isHours) return (averageVal / 33) * width;
+    return (averageVal / 5) * width;
+  })();
+
+  const domain = (() => {
+    if (isSentiment) return [-1, 1];
+    if (isHours) return [0, 35];
+    return [0, 10];
+  })();
 
   const scale = scaleLinear<number>({
-    domain: isSentiment ? [-1, 1] : [0, 10],
+    domain: domain,
     range: [10, width],
     nice: true,
   });
@@ -63,18 +73,18 @@ const ComparisonChart: React.FC<BarsProps> = ({
         <Group>
           <Bar
             key={0}
-            x={getBarX(sectionVal, width, isSentiment) + x}
+            x={getBarX(currentVal, width, isSentiment) + x}
             y={0}
-            width={sectionWidth}
+            width={currentWidth}
             height={20}
             fill={sectionColor}
             rx={4}
           />
           <Bar
             key={1}
-            x={getBarX(totalVal, width, isSentiment) + x}
+            x={getBarX(averageVal, width, isSentiment) + x}
             y={10}
-            width={totalWidth}
+            width={averageWidth}
             height={20}
             fill={totalColor}
             rx={4}
@@ -84,7 +94,7 @@ const ComparisonChart: React.FC<BarsProps> = ({
             scale={scale}
             stroke="#355070"
             tickStroke="#355070"
-            numTicks={2}
+            numTicks={isHours ? 5 : 2}
             tickLabelProps={() => ({
               fontSize: 11,
               textAnchor: 'middle',
