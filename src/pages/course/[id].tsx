@@ -7,6 +7,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { getCourse, getCourseStats } from '../../api/evalsApi';
 import { SectionList } from '../../components/sectionList';
@@ -34,22 +35,34 @@ const CoursePage = () => {
   }, [router.query]);
 
   return (
-    course && (
-      <Container>
-        <VStack mb={4}>
-          <Heading textAlign="center">{course.title}</Heading>
-          <Box>
-            <Text fontSize={22}>{course.courseNumbers.join(', ')}</Text>
+    <div className="coursePage">
+      <Head>
+        <title>u of courses {`| ${course && course.title}`}</title>
+        <meta
+          name="description"
+          content="The best uchicago course evaluations site"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      {course && (
+        <Container>
+          <VStack mb={4}>
+            <Heading textAlign="center">{course.title}</Heading>
+            <Box>
+              <Text fontSize={22}>{course.courseNumbers.join(', ')}</Text>
+            </Box>
+            <Divider />
+          </VStack>
+          <Box mt={5} mb={5}>
+            <SectionList sections={course.sections} hasCourseTitles={false} />
           </Box>
           <Divider />
-        </VStack>
-        <Box mt={5} mb={5}>
-          <SectionList sections={course.sections} hasCourseTitles={false} />
-        </Box>
-        <Divider />
-        <Box mt={5}>{stats && <Statistics stats={stats} type="course" />}</Box>
-      </Container>
-    )
+          <Box mt={5}>
+            {stats && <Statistics stats={stats} type="course" />}
+          </Box>
+        </Container>
+      )}
+    </div>
   );
 };
 

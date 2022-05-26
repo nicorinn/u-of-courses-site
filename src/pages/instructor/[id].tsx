@@ -1,11 +1,8 @@
 import { Container, VStack, Heading, Box, Divider } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {
-  getCourse,
-  getInstructor,
-  getInstructorStats,
-} from '../../api/evalsApi';
+import Head from 'next/head';
+import { getInstructor, getInstructorStats } from '../../api/evalsApi';
 import { SectionList } from '../../components/sectionList';
 import { Statistics } from '../../components/statistics';
 import { Instructor, Stats } from '../../types';
@@ -31,21 +28,31 @@ const InstructorPage = () => {
   }, [router.query]);
 
   return (
-    instructor && (
-      <Container>
-        <VStack mb={4}>
-          <Heading textAlign="center">{instructor.name}</Heading>
+    <div className="instructorPage">
+      <Head>
+        <title>u of courses {`| ${instructor && instructor.name}`}</title>
+        <meta
+          name="description"
+          content="The best uchicago course evaluations site"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      {instructor && (
+        <Container>
+          <VStack mb={4}>
+            <Heading textAlign="center">{instructor.name}</Heading>
+            <Divider />
+          </VStack>
+          <Box mt={5} mb={5}>
+            <SectionList sections={instructor.sections} hasCourseTitles />
+          </Box>
           <Divider />
-        </VStack>
-        <Box mt={5} mb={5}>
-          <SectionList sections={instructor.sections} hasCourseTitles />
-        </Box>
-        <Divider />
-        <Box mt={5}>
-          {stats && <Statistics stats={stats} type="instructor" />}
-        </Box>
-      </Container>
-    )
+          <Box mt={5}>
+            {stats && <Statistics stats={stats} type="instructor" />}
+          </Box>
+        </Container>
+      )}
+    </div>
   );
 };
 
