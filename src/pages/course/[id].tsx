@@ -54,7 +54,7 @@ const CoursePage = () => {
             <Divider />
           </VStack>
           <Box mt={5} mb={5}>
-            <SectionList sections={course.sections} hasCourseTitles={false} />
+            <SectionList sections={course.sections} />
           </Box>
           <Divider />
           <Box mt={5}>

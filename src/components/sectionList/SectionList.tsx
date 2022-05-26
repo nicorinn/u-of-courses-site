@@ -10,14 +10,19 @@ import NextLink from 'next/link';
 import { useRef } from 'react';
 import { Instructor, Section } from '../../types';
 
+interface SectionListProps {
+  sections: Section[];
+  isInstructor?: boolean;
+}
+
 function getInstructorNames(instructors: Instructor[]) {
   return instructors.map((i) => i.name).join(', ');
 }
 
-const SectionList: React.FC<{
-  sections: Section[];
-  isInstructor: boolean;
-}> = ({ sections, isInstructor }) => {
+const SectionList: React.FC<SectionListProps> = ({
+  sections,
+  isInstructor = false,
+}) => {
   const leftRef = useRef<HTMLElement>(null);
   const rightRef = useRef<HTMLElement>(null);
   const leftDimensions = useDimensions(leftRef);
