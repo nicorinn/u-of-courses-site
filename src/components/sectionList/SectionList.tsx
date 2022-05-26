@@ -19,10 +19,7 @@ const SectionList: React.FC<{
           </Heading>
         </Box>
         {sections.map((section) => (
-          <Box
-            key={section.courseTitle ? section.courseTitle : section.id}
-            width="100%"
-          >
+          <Box key={section.id} width="100%">
             <NextLink href={`/section/${section.id}`}>
               <Button variant="ghost" width="100%">
                 <Box textAlign="left" width="100%">

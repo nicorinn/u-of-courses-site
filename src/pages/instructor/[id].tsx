@@ -15,7 +15,6 @@ const InstructorPage = () => {
   const router = useRouter();
   const [instructor, setInstructor] = useState<Instructor | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
-  const [hasCourses, setHasCourses] = useState<boolean>(false);
 
   useEffect(() => {
     const { id } = router.query;
@@ -25,30 +24,11 @@ const InstructorPage = () => {
       (async () => {
         const instructorRes = await getInstructor(instructorId);
         const statsRes = await getInstructorStats(instructorId);
-        if (instructorRes) {
-          setInstructor(instructorRes);
-        }
+        setInstructor(instructorRes);
         setStats(statsRes);
       })();
     }
   }, [router.query]);
-
-  useEffect(() => {
-    if (instructor && !hasCourses) {
-      const sections = instructor.sections;
-
-      (async () => {
-        for (let i = 0; i < sections.length; i++) {
-          const course = await getCourse(sections[i].courseId);
-          if (course) {
-            sections[i].courseTitle = course.title;
-          }
-        }
-        setInstructor({ ...instructor, sections });
-        setHasCourses(true);
-      })();
-    }
-  }, [instructor, hasCourses]);
 
   return (
     instructor && (
@@ -58,12 +38,7 @@ const InstructorPage = () => {
           <Divider />
         </VStack>
         <Box mt={5} mb={5}>
-          {hasCourses && (
-            <SectionList
-              sections={instructor.sections}
-              hasCourseTitles={hasCourses}
-            />
-          )}
+          <SectionList sections={instructor.sections} hasCourseTitles />
         </Box>
         <Divider />
         <Box mt={5}>
