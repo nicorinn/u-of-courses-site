@@ -69,7 +69,7 @@ const ComparisonChart: React.FC<BarsProps> = ({
         </HStack>
       </Flex>
       <svg width={boxWidth} height={height}>
-        <rect width={boxWidth} height={height} fill="url(#teal)" rx={14} />
+        <rect width={boxWidth} height={height} fill="white" rx={14} />
         <Group>
           <Bar
             key={0}
@@ -96,6 +96,7 @@ const ComparisonChart: React.FC<BarsProps> = ({
             tickStroke="#355070"
             numTicks={isHours ? 5 : 2}
             tickLabelProps={() => ({
+              fill: '#355070',
               fontSize: 11,
               textAnchor: 'middle',
             })}

@@ -43,7 +43,7 @@ const SingleBarChart: React.FC<BarsProps> = ({
             <Text fontWeight={700}>{label}</Text>
           </Flex>
           <svg width={boxWidth} height={height}>
-            <rect width={boxWidth} height={height} fill="url(#teal)" rx={14} />
+            <rect width={boxWidth} height={height} rx={14} fill="white" />
             <Group>
               <Bar
                 key={0}
@@ -61,6 +61,7 @@ const SingleBarChart: React.FC<BarsProps> = ({
                 tickStroke="#355070"
                 numTicks={2}
                 tickLabelProps={() => ({
+                  fill: '#355070',
                   fontSize: 11,
                   textAnchor: 'middle',
                 })}
