@@ -1,5 +1,4 @@
 import {
-  Box,
   Tab,
   TabList,
   TabPanel,
@@ -8,13 +7,12 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { Course, Instructor } from '../../types';
+import { Course, Instructor, SearchResults } from '../../types';
 import CourseResults from './CourseResults';
 import InstructorResult from './InstructorResults';
 
 interface SearchResultsListProps {
-  courses: Course[];
-  instructors: Instructor[];
+  searchResults: SearchResults;
   queryString: string;
 }
 
@@ -39,11 +37,13 @@ function renderInstructorResults(instructors: Instructor[]) {
 }
 
 const SearchResultsList: React.FC<SearchResultsListProps> = ({
-  courses,
-  instructors,
+  searchResults,
   queryString,
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
+
+  const { instructors, courses, courseResultsCount, instructorResultsCount } =
+    searchResults;
 
   useEffect(() => {
     if (!courses.length && instructors.length) {
@@ -62,10 +62,10 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({
       <TabList>
         <Tab
           isDisabled={!courses.length}
-        >{`📚 Courses (${courses.length})`}</Tab>
+        >{`📚 Courses (${courseResultsCount})`}</Tab>
         <Tab
           isDisabled={!instructors.length}
-        >{`🧑‍🏫 Instructors (${instructors.length})`}</Tab>
+        >{`🧑‍🏫 Instructors (${instructorResultsCount})`}</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>{renderCourseResults(courses)}</TabPanel>

@@ -51,4 +51,6 @@ export interface Stats {
 export interface SearchResults {
   courses: Course[];
   instructors: Instructor[];
+  courseResultsCount: number;
+  instructorResultsCount: number;
 }

@@ -4,13 +4,14 @@ import { Container, Heading, Input, Text } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { searchEvals } from '../api/evalsApi';
 import { SearchResultsList } from '../components/searchResultsList';
-import { Course, Instructor } from '../types';
+import { Course, Instructor, SearchResults } from '../types';
 import { debounce } from 'lodash';
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState('');
-  const [courseResults, setCourseResults] = useState<Course[]>([]);
-  const [instructorResults, setInstructorResults] = useState<Instructor[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchResults | null>(
+    null
+  );
 
   const debouncedSearch = useMemo(() => debounce(performSearch, 300), []);
 
@@ -18,16 +19,10 @@ const Home: NextPage = () => {
     if (text) {
       (async () => {
         const results = await searchEvals(text);
-        if (results.courses) {
-          setCourseResults(results.courses);
-        }
-        if (results.instructors) {
-          setInstructorResults(results.instructors);
-        }
+        setSearchResults(results);
       })();
     } else {
-      setCourseResults([]);
-      setInstructorResults([]);
+      setSearchResults(null);
     }
   }
 
@@ -67,10 +62,9 @@ const Home: NextPage = () => {
             value={query}
             onChange={handleSearchChange}
           />
-          {query && (
+          {query && searchResults && (
             <SearchResultsList
-              courses={courseResults}
-              instructors={instructorResults}
+              searchResults={searchResults}
               queryString={query}
             />
           )}
