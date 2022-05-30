@@ -2,27 +2,36 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Container, Heading, Input, Text } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
-import { searchEvals } from '../api/evalsApi';
+import { searchCourses, searchInstructors } from '../api/evalsApi';
 import { SearchResultsList } from '../components/searchResultsList';
-import { Course, Instructor, SearchResults } from '../types';
+import { InstructorSearchResults, CourseSearchResults } from '../types';
 import { debounce } from 'lodash';
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResults | null>(
-    null
-  );
+  const [courseResults, setCourseResults] =
+    useState<CourseSearchResults | null>(null);
+  const [instructorResults, setInstructorResults] =
+    useState<InstructorSearchResults | null>(null);
+  const [coursePage, setCoursePage] = useState(0);
+  const [instructorPage, setInstructorPage] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
 
   const debouncedSearch = useMemo(() => debounce(performSearch, 300), []);
 
   async function performSearch(text: string) {
     if (text) {
+      setIsSearching(true);
       (async () => {
-        const results = await searchEvals(text);
-        setSearchResults(results);
+        const courseRes = await searchCourses(text);
+        const instructorRes = await searchInstructors(text);
+        setCourseResults(courseRes);
+        setInstructorResults(instructorRes);
       })();
+      setIsSearching(false);
     } else {
-      setSearchResults(null);
+      setCourseResults(null);
+      setInstructorResults(null);
     }
   }
 
@@ -30,6 +39,35 @@ const Home: NextPage = () => {
     e.preventDefault();
     setQuery(e.target.value);
     debouncedSearch(e.target.value);
+  }
+
+  async function extendInstructorSearch() {
+    if (!isSearching && instructorResults) {
+      setIsSearching(true);
+      const instructorRes = await searchInstructors(query, instructorPage + 1);
+      setInstructorResults({
+        ...instructorResults,
+        instructors: [
+          ...instructorResults.instructors,
+          ...instructorRes.instructors,
+        ],
+      });
+      setInstructorPage(instructorPage + 1);
+      setIsSearching(false);
+    }
+  }
+
+  async function extendCourseSearch() {
+    if (!isSearching && courseResults) {
+      setIsSearching(true);
+      const courseRes = await searchCourses(query, coursePage + 1);
+      setCourseResults({
+        ...courseResults,
+        courses: [...courseResults.courses, ...courseRes.courses],
+      });
+      setCoursePage(coursePage + 1);
+      setIsSearching(false);
+    }
   }
 
   return (
@@ -62,10 +100,14 @@ const Home: NextPage = () => {
             value={query}
             onChange={handleSearchChange}
           />
-          {query && searchResults && (
+          {query && instructorResults && courseResults && (
             <SearchResultsList
-              searchResults={searchResults}
+              instructorResults={instructorResults}
+              courseResults={courseResults}
               queryString={query}
+              onInstructorsShowMoreClick={extendInstructorSearch}
+              onCoursesShowMoreClick={extendCourseSearch}
+              isLoading={isSearching}
             />
           )}
         </Container>

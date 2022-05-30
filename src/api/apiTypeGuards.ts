@@ -1,4 +1,9 @@
-import { Course, Instructor, SearchResults } from '../types';
+import {
+  Course,
+  CourseSearchResults,
+  Instructor,
+  InstructorSearchResults,
+} from '../types';
 
 function isCourse(data: any): data is Course {
   return data.id && data.title && data.courseNumbers && data.sections;
@@ -24,11 +29,14 @@ function isInstructorList(data: any): data is Instructor[] {
   }
 }
 
-export function isSearchResults(data: any): data is SearchResults {
+export function isInstructorSearchResults(
+  data: any
+): data is InstructorSearchResults {
   const hasInstructors = data.instructors && isInstructorList(data.instructors);
+  return hasInstructors && data.count !== undefined;
+}
+
+export function isCourseSearchResults(data: any): data is CourseSearchResults {
   const hasCourses = data.courses && isCourseList(data.courses);
-  const hasResults =
-    data.courseResultsCount !== undefined &&
-    data.instructorResultsCount !== undefined;
-  return hasInstructors && hasCourses && hasResults;
+  return hasCourses && data.count !== undefined;
 }

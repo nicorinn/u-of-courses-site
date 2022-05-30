@@ -1,25 +1,53 @@
 import axios from 'axios';
-import { Course, Instructor, SearchResults, Section, Stats } from '../types';
-import { isSearchResults } from './apiTypeGuards';
+import {
+  Course,
+  Instructor,
+  InstructorSearchResults,
+  CourseSearchResults,
+  Section,
+  Stats,
+} from '../types';
+import {
+  isInstructorSearchResults,
+  isCourseSearchResults,
+} from './apiTypeGuards';
 
 const evalsApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 });
 
-export async function searchEvals(query: string, page = 0, pageSize = 15) {
-  const res = await evalsApi.get<SearchResults>(
-    `/Search/SearchEvals?queryString=${query}&page=${page}&pageSize=${pageSize}`
+export async function searchCourses(query: string, page = 0, pageSize = 15) {
+  const res = await evalsApi.get<CourseSearchResults>(
+    `/Courses/Search?queryString=${query}&page=${page}&pageSize=${pageSize}`
   );
-  if (res.status == 200 && isSearchResults(res.data)) {
+  if (res.status == 200 && isCourseSearchResults(res.data)) {
     return res.data;
   } else {
     console.log(res.data);
     console.error(`Error: status code ${res.status}`);
     return {
       courses: [],
+      count: 0,
+    };
+  }
+}
+
+export async function searchInstructors(
+  query: string,
+  page = 0,
+  pageSize = 15
+) {
+  const res = await evalsApi.get<InstructorSearchResults>(
+    `/Instructors/Search?queryString=${query}&page=${page}&pageSize=${pageSize}`
+  );
+  if (res.status == 200 && isInstructorSearchResults(res.data)) {
+    return res.data;
+  } else {
+    console.log(res.data);
+    console.error(`Error: status code ${res.status}`);
+    return {
       instructors: [],
-      instructorResultsCount: 0,
-      courseResultsCount: 0,
+      count: 0,
     };
   }
 }

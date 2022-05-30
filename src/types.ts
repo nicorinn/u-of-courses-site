@@ -48,9 +48,12 @@ export interface Stats {
   helpfulOutsideOfClass: number | null;
 }
 
-export interface SearchResults {
+export interface CourseSearchResults {
   courses: Course[];
+  count: number;
+}
+
+export interface InstructorSearchResults {
   instructors: Instructor[];
-  courseResultsCount: number;
-  instructorResultsCount: number;
+  count: number;
 }

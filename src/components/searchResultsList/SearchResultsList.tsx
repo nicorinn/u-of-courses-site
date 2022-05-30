@@ -1,4 +1,6 @@
 import {
+  Box,
+  Button,
   Tab,
   TabList,
   TabPanel,
@@ -7,13 +9,22 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { Course, Instructor, SearchResults } from '../../types';
+import {
+  Course,
+  Instructor,
+  InstructorSearchResults,
+  CourseSearchResults,
+} from '../../types';
 import CourseResults from './CourseResults';
 import InstructorResult from './InstructorResults';
 
 interface SearchResultsListProps {
-  searchResults: SearchResults;
+  courseResults: CourseSearchResults;
+  instructorResults: InstructorSearchResults;
   queryString: string;
+  isLoading: boolean;
+  onInstructorsShowMoreClick: () => void;
+  onCoursesShowMoreClick: () => void;
 }
 
 function renderCourseResults(courses: Course[]) {
@@ -37,13 +48,17 @@ function renderInstructorResults(instructors: Instructor[]) {
 }
 
 const SearchResultsList: React.FC<SearchResultsListProps> = ({
-  searchResults,
+  courseResults,
+  instructorResults,
   queryString,
+  onInstructorsShowMoreClick,
+  onCoursesShowMoreClick,
+  isLoading,
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
 
-  const { instructors, courses, courseResultsCount, instructorResultsCount } =
-    searchResults;
+  const { courses, count: courseCount } = courseResults;
+  const { instructors, count: instructorCount } = instructorResults;
 
   useEffect(() => {
     if (!courses.length && instructors.length) {
@@ -60,16 +75,40 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({
   return (
     <Tabs isFitted isLazy index={tabIndex} onChange={handleTabsChange}>
       <TabList>
-        <Tab
-          isDisabled={!courses.length}
-        >{`📚 Courses (${courseResultsCount})`}</Tab>
+        <Tab isDisabled={!courses.length}>{`📚 Courses (${courseCount})`}</Tab>
         <Tab
           isDisabled={!instructors.length}
-        >{`🧑‍🏫 Instructors (${instructorResultsCount})`}</Tab>
+        >{`🧑‍🏫 Instructors (${instructorCount})`}</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel>{renderCourseResults(courses)}</TabPanel>
-        <TabPanel>{renderInstructorResults(instructors)}</TabPanel>
+        <TabPanel>
+          {renderCourseResults(courses)}
+          {courseCount > courses.length && (
+            <Box textAlign="center" mt={5}>
+              <Button
+                color="maroon"
+                onClick={onCoursesShowMoreClick}
+                isLoading={isLoading}
+              >
+                Show more
+              </Button>
+            </Box>
+          )}
+        </TabPanel>
+        <TabPanel>
+          {renderInstructorResults(instructors)}
+          {instructorCount > instructors.length && (
+            <Box textAlign="center" mt={5}>
+              <Button
+                color="maroon"
+                onClick={onInstructorsShowMoreClick}
+                isLoading={isLoading}
+              >
+                Show more
+              </Button>
+            </Box>
+          )}
+        </TabPanel>
       </TabPanels>
     </Tabs>
   );
