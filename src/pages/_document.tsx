@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { GoogleAnalytics } from '../components/googleAnalytics';
 
 class MyDocument extends Document {
   render() {
@@ -11,6 +12,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;700&display=swap"
             rel="stylesheet"
           />
+          <GoogleAnalytics />
         </Head>
         <body>
           <Main />

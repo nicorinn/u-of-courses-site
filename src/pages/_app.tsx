@@ -1,5 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 import {
   Box,
   Center,
@@ -8,6 +9,8 @@ import {
   ThemeConfig,
 } from '@chakra-ui/react';
 import { Header } from '../components/header';
+import * as ga from '../lib/ga';
+import { useEffect } from 'react';
 
 const theme: ThemeConfig = extendTheme({
   fonts: {
@@ -19,7 +22,18 @@ const theme: ThemeConfig = extendTheme({
   },
 });
 
+const handleRouteChange = (url: string) => ga.pageView(url);
+
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Subscribe to router changes and log page views to GA
+    router.events.on('routeChangeComplete', handleRouteChange);
+    // Unsubscribe when component is unmounted
+    return () => router.events.off('routeChangeComplete', handleRouteChange);
+  }, [router.events]);
+
   return (
     <ChakraProvider theme={theme}>
       <Header />
