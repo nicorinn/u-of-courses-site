@@ -17,6 +17,7 @@ import { ComparisonChart } from '../../components/comparisonChart';
 import { Keywords } from '../../components/keywords';
 import { Course, Section, Stats } from '../../types';
 import { getChartHeight, getChartWidth, isString } from '../../utils';
+import { SingleBarChart } from '../../components/singleBarChart';
 
 const SectionPage = () => {
   const router = useRouter();
@@ -65,6 +66,8 @@ const SectionPage = () => {
     );
   }
 
+  const hasMultipleSections = stats && stats.sectionCount > 1;
+
   return (
     <div className="sectionPage">
       <Head>
@@ -103,44 +106,101 @@ const SectionPage = () => {
                 <Divider />
               </VStack>
               <VStack mt={10} mb={5} spacing={10} justifyContent="center">
-                {stats && stats.sectionCount > 1 && (
-                  <>
-                    <ComparisonChart
-                      currentVal={section.sentiment}
-                      averageVal={stats.sentiment}
-                      isSentiment
-                      label="sentiment score"
-                      width={getChartWidth(dimensions)}
-                      height={getChartHeight(dimensions, 3)}
-                    />
-                    {getChartIfNotNull(
+                {hasMultipleSections ? (
+                  <ComparisonChart
+                    currentVal={section.sentiment}
+                    averageVal={stats.sentiment}
+                    isSentiment
+                    label="sentiment score"
+                    width={getChartWidth(dimensions)}
+                    height={getChartHeight(dimensions, 3)}
+                  />
+                ) : (
+                  <SingleBarChart
+                    value={section.sentiment}
+                    isSentiment
+                    label="sentiment score"
+                    width={getChartWidth(dimensions)}
+                    height={getChartHeight(dimensions, 3)}
+                  />
+                )}
+                {hasMultipleSections &&
+                stats.hoursWorked !== section.hoursWorked
+                  ? getChartIfNotNull(
                       section.hoursWorked,
                       stats.hoursWorked,
                       'hours worked',
                       true
+                    )
+                  : section.hoursWorked && (
+                      <SingleBarChart
+                        value={section.hoursWorked}
+                        label="hours worked"
+                        width={getChartWidth(dimensions)}
+                        height={getChartHeight(dimensions, 3)}
+                        isHours={true}
+                      />
                     )}
-                    {getChartIfNotNull(
+                {hasMultipleSections &&
+                stats.evaluatedFairly !== section.evaluatedFairly
+                  ? getChartIfNotNull(
                       section.evaluatedFairly,
                       stats.evaluatedFairly,
                       'graded fairly'
+                    )
+                  : section.evaluatedFairly && (
+                      <SingleBarChart
+                        value={section.evaluatedFairly}
+                        label="graded fairly"
+                        width={getChartWidth(dimensions)}
+                        height={getChartHeight(dimensions, 3)}
+                      />
                     )}
-                    {getChartIfNotNull(
+                {hasMultipleSections &&
+                stats.usefulFeedback !== section.usefulFeedback
+                  ? getChartIfNotNull(
                       section.usefulFeedback,
                       stats.usefulFeedback,
                       'provided useful feedback'
+                    )
+                  : section.usefulFeedback && (
+                      <SingleBarChart
+                        value={section.usefulFeedback}
+                        label="provided useful feedback"
+                        width={getChartWidth(dimensions)}
+                        height={getChartHeight(dimensions, 3)}
+                      />
                     )}
-                    {getChartIfNotNull(
+                {hasMultipleSections &&
+                stats.standardsForSuccess !== section.standardsForSuccess
+                  ? getChartIfNotNull(
                       section.standardsForSuccess,
                       stats.standardsForSuccess,
                       'understandable standards'
+                    )
+                  : section.standardsForSuccess && (
+                      <SingleBarChart
+                        value={section.standardsForSuccess}
+                        label="understandable standards"
+                        width={getChartWidth(dimensions)}
+                        height={getChartHeight(dimensions, 3)}
+                      />
                     )}
-                    {getChartIfNotNull(
+                {hasMultipleSections &&
+                stats.helpfulOutsideOfClass !== section.helpfulOutsideOfClass
+                  ? getChartIfNotNull(
                       section.helpfulOutsideOfClass,
                       stats.helpfulOutsideOfClass,
                       'helpful outside of class'
+                    )
+                  : section.helpfulOutsideOfClass && (
+                      <SingleBarChart
+                        value={section.helpfulOutsideOfClass}
+                        label="helpful outside of class"
+                        width={getChartWidth(dimensions)}
+                        height={getChartHeight(dimensions, 3)}
+                      />
                     )}
-                  </>
-                )}
                 <Keywords
                   keywords={section.keywords}
                   width={getChartWidth(dimensions)}
