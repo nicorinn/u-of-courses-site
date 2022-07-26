@@ -146,6 +146,17 @@ const SectionPage = () => {
                   width={getChartWidth(dimensions)}
                   height={getChartHeight(dimensions, 1.5)}
                 />
+                {section.url && (
+                  <Link
+                    href={section.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    textAlign="center"
+                    color="maroon"
+                  >
+                    view original course eval
+                  </Link>
+                )}
               </VStack>
             </Box>
           )}

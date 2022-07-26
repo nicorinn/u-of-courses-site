@@ -28,6 +28,7 @@ export interface Section {
   keywords: Keyword[];
   instructors: Instructor[];
   courseTitle?: string;
+  url?: string;
 }
 
 export interface Instructor {
