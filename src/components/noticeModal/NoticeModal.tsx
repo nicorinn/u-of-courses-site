@@ -13,10 +13,6 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
-interface NoticeModalProps {
-  isOpen: boolean;
-}
-
 const NoticeModal: React.FC<{}> = () => {
   const [firstLoad, setFirstLoad] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();

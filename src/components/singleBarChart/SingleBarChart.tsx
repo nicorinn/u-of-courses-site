@@ -21,13 +21,18 @@ const SingleBarChart: React.FC<BarsProps> = ({
   label,
   width,
   height,
+  isHours,
 }: BarsProps) => {
   const x = isSentiment ? 5 : 10;
   const boxWidth = width + 20;
 
   const sectionColor = '#b56576';
 
-  const sectionWidth = isSentiment ? (value / 2) * width : (value / 5) * width;
+  const currentWidth = (() => {
+    if (isSentiment) return (value / 2) * width;
+    if (isHours) return (value / 33) * width;
+    return (value / 5) * width;
+  })();
 
   const scale = scaleLinear<number>({
     domain: isSentiment ? [-1, 1] : [0, 10],
@@ -49,7 +54,7 @@ const SingleBarChart: React.FC<BarsProps> = ({
                 key={0}
                 x={getBarX(value, width, isSentiment) + x}
                 y={0}
-                width={sectionWidth}
+                width={currentWidth}
                 height={20}
                 fill={sectionColor}
                 rx={4}
@@ -59,7 +64,7 @@ const SingleBarChart: React.FC<BarsProps> = ({
                 scale={scale}
                 stroke="#355070"
                 tickStroke="#355070"
-                numTicks={2}
+                numTicks={isHours ? 5 : 2}
                 tickLabelProps={() => ({
                   fill: '#355070',
                   fontSize: 11,
