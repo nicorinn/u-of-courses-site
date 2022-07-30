@@ -33,7 +33,7 @@ const InstructorPage = () => {
         <title>u of courses {`| ${instructor && instructor.name}`}</title>
         <meta
           name="description"
-          content="The best uchicago course evaluations site"
+          content="An alternative uchicago course evaluations site"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

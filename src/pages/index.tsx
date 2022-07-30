@@ -76,7 +76,7 @@ const Home: NextPage = () => {
         <title>u of courses</title>
         <meta
           name="description"
-          content="The best uchicago course evaluations site"
+          content="An alternative uchicago course evaluations site"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
