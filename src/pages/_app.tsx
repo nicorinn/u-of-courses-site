@@ -10,7 +10,8 @@ import {
 } from '@chakra-ui/react';
 import { Header } from '../components/header';
 import * as ga from '../lib/ga';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { NoticeModal } from '../components/noticeModal';
 
 const theme: ThemeConfig = extendTheme({
   fonts: {
@@ -25,6 +26,7 @@ const theme: ThemeConfig = extendTheme({
 const handleRouteChange = (url: string) => ga.pageView(url);
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [newVisitor, setNewVisitor] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -34,10 +36,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     return () => router.events.off('routeChangeComplete', handleRouteChange);
   }, [router.events]);
 
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      setNewVisitor(true);
+      localStorage.setItem('hasVisited', 'true');
+    }
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
       <Header />
       <Box mt={10} mb={20}>
+        {newVisitor && <NoticeModal />}
         <Component {...pageProps} />
       </Box>
       <Box margin="auto" bottom={0} p={5} width="100%" bg="#fff">
