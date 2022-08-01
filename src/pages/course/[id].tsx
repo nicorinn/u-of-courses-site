@@ -37,7 +37,7 @@ const CoursePage = () => {
   return (
     <div className="coursePage">
       <Head>
-        <title>u of courses {`| ${course && course.title}`}</title>
+        <title>u of courses {course ? `| ${course.title}` : ''}</title>
         <meta
           name="description"
           content="An alternative uchicago course evaluations site"

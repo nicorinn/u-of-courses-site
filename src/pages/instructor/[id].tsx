@@ -30,7 +30,7 @@ const InstructorPage = () => {
   return (
     <div className="instructorPage">
       <Head>
-        <title>u of courses {`| ${instructor && instructor.name}`}</title>
+        <title>u of courses {instructor ? `| ${instructor.name}` : ''}</title>
         <meta
           name="description"
           content="An alternative uchicago course evaluations site"
