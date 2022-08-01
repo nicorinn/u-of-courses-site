@@ -6,6 +6,7 @@ import {
   Center,
   ChakraProvider,
   extendTheme,
+  Link,
   ThemeConfig,
 } from '@chakra-ui/react';
 import { Header } from '../components/header';
@@ -52,6 +53,19 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </Box>
       <Box margin="auto" bottom={0} p={5} width="100%" bg="#fff">
+        <Center mb={3}>
+          <Link
+            href={
+              'https://docs.google.com/forms/d/e/1FAIpQLScfut9vZD2GkcuMJKORlnV4bccFXiToN1TrQk9pxLHLBBSzmA/viewform?usp=pp_url&entry.1259737458=' +
+              'https://uofcourses.com' +
+              router.asPath
+            }
+            target="_blank"
+            color="maroon"
+          >
+            report issue
+          </Link>
+        </Center>
         <Center>&copy; u of courses 2022</Center>
       </Box>
     </ChakraProvider>

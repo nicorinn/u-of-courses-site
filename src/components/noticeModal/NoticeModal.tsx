@@ -35,23 +35,24 @@ const NoticeModal: React.FC<{}> = () => {
           <br />
           <br />
           <Text as="span">
-            Just for your awareness, some of this site&apos;s data may not be
-            completely accurate. I processed over 10,000{' '}
+            Just for your awareness, this site is still in beta. I processed
+            over 10,000{' '}
           </Text>
           <Link href="https://coursefeedback.uchicago.edu/" color="maroon">
             course evaluations
           </Link>
           <Text as="span">
             {' '}
-            programmatically, and I&apos;m still improving the code to extract
-            text from images. I plan on adding a way to report inaccuracies
-            soon.
+            programmatically, so a few errors might have slipped through.
+            <br />
+            Please use the link at the bottom of any page to report bugs or
+            inaccurate eval data.
           </Text>
           <br />
           <br />
           <Text as="span">
-            That being said, most of this site&apos;s data is good, and I hope
-            you find it useful!
+            That being said, the vast majority of this site&apos;s data is good,
+            and I hope you find it useful!
           </Text>
         </ModalBody>
         <ModalFooter>
