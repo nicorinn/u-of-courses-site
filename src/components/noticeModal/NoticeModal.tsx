@@ -38,7 +38,11 @@ const NoticeModal: React.FC<{}> = () => {
             Just for your awareness, this site is still in beta. I processed
             over 10,000{' '}
           </Text>
-          <Link href="https://coursefeedback.uchicago.edu/" color="maroon">
+          <Link
+            href="https://coursefeedback.uchicago.edu/"
+            color="maroon"
+            isExternal
+          >
             course evaluations
           </Link>
           <Text as="span">

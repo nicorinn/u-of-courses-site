@@ -213,6 +213,7 @@ const SectionPage = () => {
                     rel="noreferrer"
                     textAlign="center"
                     color="maroon"
+                    isExternal
                   >
                     view original course eval
                   </Link>

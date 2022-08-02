@@ -60,8 +60,8 @@ function MyApp({ Component, pageProps }: AppProps) {
               'https://uofcourses.com' +
               router.asPath
             }
-            target="_blank"
             color="maroon"
+            isExternal
           >
             report issue
           </Link>
