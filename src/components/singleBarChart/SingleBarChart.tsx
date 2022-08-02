@@ -29,7 +29,7 @@ const SingleBarChart: React.FC<BarsProps> = ({
   const sectionColor = '#b56576';
 
   const currentWidth = (() => {
-    if (isSentiment) return (value / 2) * width;
+    if (isSentiment) return Math.abs((value / 2) * width);
     if (isHours) return (value / 33) * width;
     return (value / 5) * width;
   })();

@@ -32,7 +32,7 @@ const ComparisonChart: React.FC<BarsProps> = ({
   const totalColor = '#6d597a';
 
   const currentWidth = (() => {
-    if (isSentiment) return (currentVal / 2) * width;
+    if (isSentiment) return Math.abs((currentVal / 2) * width);
     if (isHours) return (currentVal / 33) * width;
     return (currentVal / 5) * width;
   })();
