@@ -12,7 +12,7 @@ import {
 import { Header } from '../components/header';
 import * as ga from '../lib/ga';
 import { useEffect, useState } from 'react';
-import { NoticeModal } from '../components/noticeModal';
+import { MaintenanceModal, NoticeModal } from '../components/noticeModal';
 
 const theme: ThemeConfig = extendTheme({
   fonts: {
@@ -45,11 +45,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
+  const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE === 'true';
+
   return (
     <ChakraProvider theme={theme}>
       <Header />
       <Box mt={10} mb={20}>
         {newVisitor && <NoticeModal />}
+        {isMaintenance && <MaintenanceModal />}
         <Component {...pageProps} />
       </Box>
       <Box margin="auto" bottom={0} p={5} width="100%" bg="#fff">
