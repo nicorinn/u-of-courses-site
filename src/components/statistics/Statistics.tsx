@@ -9,7 +9,10 @@ interface StatisticsProps {
   type: 'course' | 'instructor';
 }
 
-function returnDoubleValueIfNotNull(description: string, value: number | null) {
+function returnDoubleValueIfNotNull(
+  description: string,
+  value: number | null | undefined
+) {
   return (
     value && (
       <Text>
@@ -24,7 +27,7 @@ const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
   const elementRef = useRef<HTMLElement>(null);
   const dimensions = useDimensions(elementRef);
 
-  return (
+  return stats ? (
     // @ts-ignore
     <Box ref={elementRef} className="stats">
       <VStack spacing={5} alignItems="start">
@@ -38,9 +41,10 @@ const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
           width={getChartWidth(dimensions)}
           height={getChartHeight(dimensions, 3)}
         />
-        {stats.hoursWorked && (
+        {stats.hoursWorked.average && (
           <Text>
-            workload: <Text as="strong">{stats.hoursWorked.toFixed(0)}</Text>{' '}
+            workload:{' '}
+            <Text as="strong">{stats.hoursWorked.average.toFixed(0)}</Text>{' '}
             hours
           </Text>
         )}
@@ -54,23 +58,26 @@ const Statistics: React.FC<StatisticsProps> = ({ stats, type }) => {
           <>
             {returnDoubleValueIfNotNull(
               'provided useful feedback',
-              stats.usefulFeedback
+              stats.usefulFeedback.average
             )}
-            {returnDoubleValueIfNotNull('graded fairly', stats.evaluatedFairly)}
+            {returnDoubleValueIfNotNull(
+              'graded fairly',
+              stats.evaluatedFairly.average
+            )}
             {returnDoubleValueIfNotNull(
               'understandable standards for success',
-              stats.standardsForSuccess
+              stats.standardsForSuccess.average
             )}
             {returnDoubleValueIfNotNull(
               'helpful outside of class',
-              stats.helpfulOutsideOfClass
+              stats.helpfulOutsideOfClass.average
             )}
           </>
         )}
         <Text>{`total respondents: ${stats.respondentCount}`}</Text>
       </VStack>
     </Box>
-  );
+  ) : null;
 };
 
 export default Statistics;

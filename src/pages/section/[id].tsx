@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getCourse, getCourseStats, getSection } from '../../api/evalsApi';
 import { ComparisonChart } from '../../components/comparisonChart';
 import { Keywords } from '../../components/keywords';
-import { Course, Section, Stats } from '../../types';
+import { Course, Section, StatComparison, Stats } from '../../types';
 import { getChartHeight, getChartWidth, isString } from '../../utils';
 import { SingleBarChart } from '../../components/singleBarChart';
 
@@ -46,17 +46,17 @@ const SectionPage = () => {
   }, [router.query]);
 
   function getChartIfNotNull(
-    sectionVal: number | null,
-    averageVal: number | null,
     description: string,
-    isHours = false
+    sectionVal: number | null,
+    averageData: StatComparison,
+    isHours?: boolean
   ) {
     return (
       sectionVal &&
-      averageVal && (
+      averageData.average && (
         <ComparisonChart
           currentVal={sectionVal}
-          averageVal={averageVal}
+          averageData={averageData}
           label={description}
           width={getChartWidth(dimensions)}
           height={getChartHeight(dimensions, 3)}
@@ -65,8 +65,6 @@ const SectionPage = () => {
       )
     );
   }
-
-  const hasMultipleSections = stats && stats.sectionCount > 1;
 
   return (
     <div className="sectionPage">
@@ -106,10 +104,13 @@ const SectionPage = () => {
                 <Divider />
               </VStack>
               <VStack mt={10} mb={5} spacing={10} justifyContent="center">
-                {hasMultipleSections ? (
+                {stats && stats.sectionCount > 1 ? (
                   <ComparisonChart
                     currentVal={section.sentiment}
-                    averageVal={stats.sentiment}
+                    averageData={{
+                      average: stats.sentiment,
+                      sectionCount: stats.sectionCount,
+                    }}
                     isSentiment
                     label="sentiment score"
                     width={getChartWidth(dimensions)}
@@ -124,12 +125,11 @@ const SectionPage = () => {
                     height={getChartHeight(dimensions, 3)}
                   />
                 )}
-                {hasMultipleSections &&
-                stats.hoursWorked !== section.hoursWorked
+                {stats && stats.hoursWorked.sectionCount > 1
                   ? getChartIfNotNull(
+                      'hours worked',
                       section.hoursWorked,
                       stats.hoursWorked,
-                      'hours worked',
                       true
                     )
                   : section.hoursWorked && (
@@ -141,12 +141,12 @@ const SectionPage = () => {
                         isHours={true}
                       />
                     )}
-                {hasMultipleSections &&
-                stats.evaluatedFairly !== section.evaluatedFairly
+                {stats && stats.evaluatedFairly.sectionCount > 1
                   ? getChartIfNotNull(
+                      'graded fairly',
                       section.evaluatedFairly,
                       stats.evaluatedFairly,
-                      'graded fairly'
+                      false
                     )
                   : section.evaluatedFairly && (
                       <SingleBarChart
@@ -156,12 +156,11 @@ const SectionPage = () => {
                         height={getChartHeight(dimensions, 3)}
                       />
                     )}
-                {hasMultipleSections &&
-                stats.usefulFeedback !== section.usefulFeedback
+                {stats && stats.usefulFeedback.sectionCount > 1
                   ? getChartIfNotNull(
+                      'provided useful feedback',
                       section.usefulFeedback,
-                      stats.usefulFeedback,
-                      'provided useful feedback'
+                      stats.usefulFeedback
                     )
                   : section.usefulFeedback && (
                       <SingleBarChart
@@ -171,12 +170,11 @@ const SectionPage = () => {
                         height={getChartHeight(dimensions, 3)}
                       />
                     )}
-                {hasMultipleSections &&
-                stats.standardsForSuccess !== section.standardsForSuccess
+                {stats && stats.standardsForSuccess.sectionCount > 1
                   ? getChartIfNotNull(
+                      'understandable standards',
                       section.standardsForSuccess,
-                      stats.standardsForSuccess,
-                      'understandable standards'
+                      stats.standardsForSuccess
                     )
                   : section.standardsForSuccess && (
                       <SingleBarChart
@@ -186,12 +184,11 @@ const SectionPage = () => {
                         height={getChartHeight(dimensions, 3)}
                       />
                     )}
-                {hasMultipleSections &&
-                stats.helpfulOutsideOfClass !== section.helpfulOutsideOfClass
+                {stats && stats.helpfulOutsideOfClass.sectionCount > 1
                   ? getChartIfNotNull(
+                      'helpful outside of class',
                       section.helpfulOutsideOfClass,
-                      stats.helpfulOutsideOfClass,
-                      'helpful outside of class'
+                      stats.helpfulOutsideOfClass
                     )
                   : section.helpfulOutsideOfClass && (
                       <SingleBarChart

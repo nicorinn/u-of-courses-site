@@ -3,12 +3,14 @@ import { Bar } from '@visx/shape';
 import { Group } from '@visx/group';
 import { AxisBottom } from '@visx/axis';
 import { scaleLinear } from '@visx/scale';
-import { Box, Flex, HStack, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Text, Tooltip, VStack } from '@chakra-ui/react';
 import { getBarX } from '../../utils';
+import { StatComparison } from '../../types';
+import { InfoIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 
 export type BarsProps = {
   currentVal: number;
-  averageVal: number;
+  averageData: StatComparison;
   isSentiment?: boolean;
   isHours?: boolean;
   label: string;
@@ -18,13 +20,16 @@ export type BarsProps = {
 
 const ComparisonChart: React.FC<BarsProps> = ({
   currentVal,
-  averageVal,
+  averageData,
   isSentiment = false,
   isHours = false,
   label,
   width,
   height,
 }: BarsProps) => {
+  // Should never actually be undefined
+  // TODO: Maybe update type or use !
+  const averageVal = averageData.average ?? currentVal;
   const x = isSentiment ? 5 : 10;
   const boxWidth = width + 20;
 
@@ -59,14 +64,23 @@ const ComparisonChart: React.FC<BarsProps> = ({
     <Box>
       <Flex justifyContent="space-between">
         <Text fontWeight={700}>{label}</Text>
-        <HStack>
+        <VStack ml={5} mb={5} textAlign="left">
           <Text fontWeight={700} color={sectionColor}>
             current
           </Text>
-          <Text fontWeight={700} color={totalColor}>
-            average
-          </Text>
-        </HStack>
+          <Tooltip
+            label={`average for all ${averageData.sectionCount} sections with this value`}
+            fontSize="xs"
+            placement="left-start"
+          >
+            <Flex>
+              <Text fontWeight={700} color={totalColor}>
+                average
+              </Text>
+              <InfoIcon boxSize={2} color={totalColor} />
+            </Flex>
+          </Tooltip>
+        </VStack>
       </Flex>
       <svg width={boxWidth} height={height}>
         <rect width={boxWidth} height={height} fill="white" rx={14} />
