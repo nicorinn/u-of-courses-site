@@ -15,6 +15,7 @@ export type BarsProps = {
   height: number;
 };
 
+// TODO Refactor into ComparisonChart
 const SingleBarChart: React.FC<BarsProps> = ({
   value,
   isSentiment = false,
@@ -34,8 +35,14 @@ const SingleBarChart: React.FC<BarsProps> = ({
     return (value / 5) * width;
   })();
 
+  const domain = (() => {
+    if (isSentiment) return [-1, 1];
+    if (isHours) return [0, 35];
+    return [0, 10];
+  })();
+
   const scale = scaleLinear<number>({
-    domain: isSentiment ? [-1, 1] : [0, 10],
+    domain: domain,
     range: [10, width],
     nice: true,
   });
