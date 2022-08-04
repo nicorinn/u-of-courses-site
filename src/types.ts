@@ -42,11 +42,16 @@ export interface Stats {
   sentiment: number;
   enrolledCount: number;
   respondentCount: number;
-  hoursWorked: number | null;
-  usefulFeedback: number | null;
-  evaluatedFairly: number | null;
-  standardsForSuccess: number | null;
-  helpfulOutsideOfClass: number | null;
+  hoursWorked: StatComparison;
+  usefulFeedback: StatComparison;
+  evaluatedFairly: StatComparison;
+  standardsForSuccess: StatComparison;
+  helpfulOutsideOfClass: StatComparison;
+}
+
+export interface StatComparison {
+  sectionCount: number;
+  average?: number;
 }
 
 export interface CourseSearchResults {
