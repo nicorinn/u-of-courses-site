@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Container, Heading, Input, Text } from '@chakra-ui/react';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { searchCourses, searchInstructors } from '../api/evalsApi';
 import { SearchResultsList } from '../components/searchResultsList';
 import { InstructorSearchResults, CourseSearchResults } from '../types';
@@ -16,6 +16,22 @@ const Home: NextPage = () => {
   const [coursePage, setCoursePage] = useState(0);
   const [instructorPage, setInstructorPage] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
+
+  const handleKeyPress = useCallback((e: KeyboardEvent) => {
+    if (e.key === '/') {
+      const searchBox = document.getElementById('searchBox');
+      if (document.activeElement !== searchBox) {
+        e.preventDefault();
+        searchBox?.focus();
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [handleKeyPress]);
 
   const debouncedSearch = useMemo(() => debounce(performSearch, 300), []);
 
@@ -94,6 +110,7 @@ const Home: NextPage = () => {
             Search for course name, number, or instructor
           </Text>
           <Input
+            id="searchBox"
             variant="filled"
             size="lg"
             placeholder="..."
