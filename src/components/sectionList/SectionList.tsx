@@ -5,10 +5,12 @@ import {
   Button,
   Heading,
   useDimensions,
+  Flex,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useRef } from 'react';
 import { Instructor, Section } from '../../types';
+import { SectionScoreBadge } from '../scoreBadge';
 
 interface SectionListProps {
   sections: Section[];
@@ -39,40 +41,59 @@ const SectionList: React.FC<SectionListProps> = ({
         {sections.map((section) => (
           <Box key={section.id} width="100%">
             <NextLink href={`/section/${section.id}`}>
-              <Button variant="ghost" width="100%">
+              <Button variant="ghost" width="100%" p={0}>
                 <Box
+                  display="flex"
                   textAlign="left"
                   width="100%" // @ts-ignore
                   ref={leftRef}
                 >
-                  {isInstructor && (
-                    <Text
-                      noOfLines={0}
-                      fontWeight={400}
-                      maxWidth={leftDimensions?.borderBox.width}
+                  <Box width="100%">
+                    <Flex
+                      className="test"
+                      justifyContent="space-between"
+                      width="100%"
                     >
-                      {section.courseTitle}
-                    </Text>
-                  )}
-                  <Text noOfLines={0} fontWeight={400}>
-                    {`#${section.number} - ${section.quarter} ${section.year}`}
-                  </Text>
-                </Box>
-                {!isInstructor && (
-                  <Box
-                    textAlign="right"
-                    width="100%" // @ts-ignore
-                    ref={rightRef}
-                  >
-                    <Text
-                      noOfLines={0}
-                      fontWeight={400}
-                      maxWidth={rightDimensions?.borderBox.width}
-                    >
-                      {getInstructorNames(section.instructors)}
-                    </Text>
+                      <Box width="90%">
+                        {isInstructor && (
+                          <>
+                            <Text
+                              noOfLines={0}
+                              fontWeight={400}
+                              maxWidth={leftDimensions?.borderBox.width}
+                            >
+                              {`${section.courseTitle} #${section.number}`}
+                            </Text>
+
+                            <Text noOfLines={0} fontWeight={400}>
+                              {`${section.quarter} ${section.year}`}
+                            </Text>
+                          </>
+                        )}
+                        {!isInstructor && (
+                          <>
+                            <Box>
+                              <Text
+                                noOfLines={0}
+                                fontWeight={400}
+                                maxWidth={rightDimensions?.borderBox.width}
+                              >
+                                {getInstructorNames(section.instructors)}
+                              </Text>
+                            </Box>
+
+                            <Text noOfLines={0} fontWeight={400}>
+                              {`#${section.number} - ${section.quarter} ${section.year}`}
+                            </Text>
+                          </>
+                        )}
+                      </Box>
+                      <Box width="10%">
+                        <SectionScoreBadge section={section} />
+                      </Box>
+                    </Flex>
                   </Box>
-                )}
+                </Box>
               </Button>
             </NextLink>
           </Box>
