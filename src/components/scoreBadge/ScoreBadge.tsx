@@ -7,7 +7,12 @@ interface ScoreBadgeProps {
 }
 
 const ScoreBadge: React.FC<ScoreBadgeProps> = ({ score }) => {
-  return <Badge m={1}>{(Math.round(score * 10) / 10).toFixed(1)}</Badge>;
+  const value = Math.round(score * 10) / 10;
+  return (
+    <Badge bgColor={value >= 8 ? '#f7e98e' : ''} m={1} pt={1}>
+      {value.toFixed(1)}
+    </Badge>
+  );
 };
 
 const SectionScoreBadge: React.FC<{ section: Section }> = ({ section }) => {
