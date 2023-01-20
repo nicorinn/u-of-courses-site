@@ -16,8 +16,10 @@ const Info: NextPage = () => {
         <Text>
           {`The sentiment score is a value from -1 (negative) to 1 (positive) that
           captures the average sentiment or opinion in the comments. It was
-          calculated by a machine learning model. <br /> Most sections have a
-          sentiment score > 0. In fact, 0.3 is low and -0.3 means you
+          calculated by a machine learning model.`}
+          <br />
+          {`Most sections have a
+          sentiment score >0. In fact, 0.3 is low and -0.3 means you
           should avoid that prof/course at all costs.`}
         </Text>
       </Box>
