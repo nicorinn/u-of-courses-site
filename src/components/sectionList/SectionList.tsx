@@ -26,7 +26,6 @@ const SectionList: React.FC<SectionListProps> = ({
   isInstructor = false,
 }) => {
   const leftRef = useRef<HTMLElement>(null);
-  const rightRef = useRef<HTMLElement>(null);
   const leftDimensions = useDimensions(leftRef);
   const rightDimensions = useDimensions(leftRef);
 
@@ -62,7 +61,7 @@ const SectionList: React.FC<SectionListProps> = ({
                               fontWeight={400}
                               maxWidth={leftDimensions?.borderBox.width}
                             >
-                              {`${section.courseTitle} #${section.number}`}
+                              {`${section.courseNumber} - ${section.courseTitle} #${section.number}`}
                             </Text>
 
                             <Text noOfLines={0} fontWeight={400}>
