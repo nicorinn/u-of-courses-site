@@ -1,6 +1,13 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Container, Heading, Input, Text } from '@chakra-ui/react';
+import {
+  Center,
+  Container,
+  Heading,
+  Input,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { searchCourses, searchInstructors } from '../api/evalsApi';
 import { SearchResultsList } from '../components/searchResultsList';
@@ -128,6 +135,14 @@ const Home: NextPage = () => {
             />
           )}
         </Container>
+        <Center>
+          <Text>
+            u of courses is{' '}
+            <Link href="https://forms.gle/QDArLaB3ZvNEnd9r5" color="maroon">
+              looking for maintainers
+            </Link>
+          </Text>
+        </Center>
       </main>
     </div>
   );

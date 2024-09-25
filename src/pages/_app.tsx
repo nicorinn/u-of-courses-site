@@ -46,6 +46,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE === 'true';
+  const href =
+    'https://docs.google.com/forms/d/e/1FAIpQLScfut9vZD2GkcuMJKORlnV4bccFXiToN1TrQk9pxLHLBBSzmA/viewform?usp=pp_url&entry.1259737458=' +
+    'https://uofcourses.com' +
+    router.asPath;
 
   return (
     <ChakraProvider theme={theme}>
@@ -57,15 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Box>
       <Box margin="auto" bottom={0} p={5} width="100%" bg="#fff">
         <Center mb={3}>
-          <Link
-            href={
-              'https://docs.google.com/forms/d/e/1FAIpQLScfut9vZD2GkcuMJKORlnV4bccFXiToN1TrQk9pxLHLBBSzmA/viewform?usp=pp_url&entry.1259737458=' +
-              'https://uofcourses.com' +
-              router.asPath
-            }
-            color="maroon"
-            isExternal
-          >
+          <Link href={href} color="maroon" isExternal>
             report issue
           </Link>
         </Center>
